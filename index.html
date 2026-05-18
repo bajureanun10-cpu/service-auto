@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Live Deployment & Security Headers Configured by: Nume Prenume | Clasa | Data: 15.05.2026 -->
+<!-- Live Deployment & Security Headers Configured by: Bajureanu Nichita | Rc-251 | Data: 18.05.2026 -->
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
@@ -1173,6 +1173,94 @@
                 alert('⚠️ Verificați câmpurile marcate cu roșu.');
             }
         });
+    </script>
+
+    <script>
+        /**
+         * UI Telemetry Engine & Performance Monitor
+         * Autor: Bajureanu Nichita | Expert RC 251
+         * Data: 18.05.2026 | No-Dependency GDPR Beacon
+         */
+        (function() {
+            'use strict';
+
+            const telemetryData = {
+                appId: 'RC251-UTM-PORTFOLIO',
+                timestamp: new Date().toISOString(),
+                environment: {
+                    screenResolution: `${window.screen.width}x${window.screen.height}`,
+                    viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+                    devicePixelRatio: window.devicePixelRatio,
+                    hardwareConcurrency: navigator.hardwareConcurrency || 'N/A',
+                    deviceMemory: navigator.deviceMemory || 'N/A',
+                    networkType: navigator.connection ? navigator.connection.effectiveType : 'unknown'
+                },
+                performanceMetrics: {},
+                errors: []
+            };
+
+            // Dynamic Error Tracking
+            window.onerror = function(message, source, lineno) {
+                telemetryData.errors.push({ message, source, lineno });
+                dispatchTelemetry();
+            };
+
+            // Core Web Vitals FID Estimation - primul click al utilizatorului
+            document.addEventListener('click', function(e) {
+                const fid = performance.now() - e.timeStamp;
+                telemetryData.performanceMetrics.firstInputDelay = fid;
+            }, { once: true });
+
+            function collectPerformanceMetrics() {
+                if (!window.performance || !window.performance.getEntriesByType) return;
+
+                const navEntries = window.performance.getEntriesByType('navigation');
+                if (navEntries.length > 0) {
+                    const timing = navEntries[0];
+                    telemetryData.performanceMetrics.dnsTime = timing.domainLookupEnd - timing.domainLookupStart;
+                    telemetryData.performanceMetrics.tcpHandshake = timing.connectEnd - timing.connectStart;
+                    telemetryData.performanceMetrics.ttfb = timing.responseStart - timing.requestStart;
+                    telemetryData.performanceMetrics.domInteractive = timing.domInteractive;
+                    telemetryData.performanceMetrics.loadEvent = timing.loadEventEnd - timing.loadEventStart;
+                }
+
+                const paintEntries = window.performance.getEntriesByType('paint');
+                paintEntries.forEach((entry) => {
+                    if (entry.name === 'first-paint') {
+                        telemetryData.performanceMetrics.firstPaint = entry.startTime;
+                    } else if (entry.name === 'first-contentful-paint') {
+                        telemetryData.performanceMetrics.firstContentfulPaint = entry.startTime;
+                    }
+                });
+
+                dispatchTelemetry();
+            }
+
+            function dispatchTelemetry() {
+                const payload = JSON.stringify(telemetryData);
+                const endpoint = "https://analytics.rc251.utm.md/api/telemetry";
+                console.log("%c[TELEMETRIE ACTIVE] Structură JSON trimisă:", "color: #00f2ff; font-weight: bold;", telemetryData);
+
+                if (navigator.sendBeacon) {
+                    navigator.sendBeacon(endpoint, payload);
+                } else {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", endpoint, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.send(payload);
+                }
+            }
+
+            // Lighthouse Optimization - requestIdleCallback pentru a nu bloca Main Thread
+            window.addEventListener('load', function() {
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(() => setTimeout(collectPerformanceMetrics, 500));
+                } else {
+                    setTimeout(collectPerformanceMetrics, 500);
+                }
+            });
+
+        })();
     </script>
 
 </body>
