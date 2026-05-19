@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<!-- Live Deployment & Security Headers Configured by: Bajureanu Nichita | RC-251 | Data: 18.05.2026 -->
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Auto Rapid – Chișinău</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #e60000;
+            --red-dark: #b30000;
+            --dark: #040c1c;
+            --dark-mid: #0a1628;
+            --blue-accent: #3498db;
+            --gray-text: #666;
+            --light-bg: #f5f6f8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Barlow', sans-serif; background: #fff; overflow-x: hidden; }
+
+        /* ======= SCROLL ANIMATIONS ======= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ======= NAVBAR ======= */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: padding 0.3s, box-shadow 0.3s;
+        }
+        header.scrolled {
+            padding: 12px 8%;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+
+        .logo-icon {
+            width: 42px; height: 42px;
+            background: var(--red);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-icon i { color: #fff; font-size: 20px; }
+
+        .logo-text {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            line-height: 1.1;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .logo-text span { color: var(--red); font-size: 17px; }
+
+        nav ul { display: flex; list-style: none; gap: 36px; }
+        nav ul li a {
+            text-decoration: none;
+            color: #444;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.2s;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--red);
+            transition: width 0.25s ease;
+        }
+        nav ul li a:hover, nav ul li a.active { color: var(--red); }
+        nav ul li a:hover::after, nav ul li a.active::after { width: 100%; }
+
+        .nav-cta {
+            background: var(--red);
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 4px;
+            transition: background 0.2s, transform 0.15s !important;
+        }
+        .nav-cta:hover { background: var(--red-dark) !important; transform: translateY(-1px); }
+        .nav-cta::after { display: none !important; }
+
+        /* ======= HERO ======= */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            padding: 120px 8% 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('/ziua5/assets/img/chevrolet.avif') no-repeat center right;
+            background-size: 65%;
+            opacity: 0.25;
+        }
+
+        .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, var(--dark) 45%, transparent 75%);
+        }
+
+        .hero-accent {
+            position: absolute;
+            left: 42%;
+            top: 0; bottom: 0;
+            width: 6px;
+            background: var(--red);
+            opacity: 0.6;
+            transform: skewX(-8deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 580px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(230,0,0,0.15);
+            border: 1px solid rgba(230,0,0,0.3);
+            color: #ff6b6b;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(48px, 7vw, 80px);
+            font-weight: 900;
+            color: #fff;
+            line-height: 0.95;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s 0.2s ease both;
+        }
+        .hero-content h1 span { color: var(--red); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content p {
+            font-size: 17px;
+            color: #aab;
+            line-height: 1.6;
+            margin-bottom: 36px;
+            animation: fadeInUp 0.8s 0.35s ease both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s 0.5s ease both;
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: #fff;
+            padding: 14px 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+            background: var(--red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(230,0,0,0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            padding: 14px 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .hero-stats {
+            position: absolute;
+            right: 8%;
+            bottom: 60px;
+            display: flex;
+            gap: 40px;
+            z-index: 2;
+            animation: fadeInUp 0.8s 0.7s ease both;
+        }
+
+        .hero-stat { text-align: center; }
+        .hero-stat .num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--red);
+            line-height: 1;
+        }
+        .hero-stat .label {
+            font-size: 12px;
+            color: #778;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* ======= SECTION HEADINGS ======= */
+        .section-head {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-head .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+        .section-head h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .red-line {
+            width: 45px; height: 3px;
+            background: var(--red);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ======= PERECHEA I: ADAPTIVE SHOWCASE (Cross-Browser Fallback) ======= */
+
+        /* =========================================================================
+           1. STILURI DE BAZĂ & FALLBACK (Compatibilitate Universală - Flexbox)
+           ========================================================================= */
+        .adaptive-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 60px 8%;
+            background-color: #0f172a;
+        }
+
+        .adaptive-card {
+            flex: 1 1 calc(33.333% - 20px);
+            min-width: 280px;
+            background-color: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            color: #f8fafc;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .adaptive-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .adaptive-card__header {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--red);
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .adaptive-card__body {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        /* =========================================================================
+           2. REFORMARE LA GRID (Browsere Moderne - Detecție display: grid)
+           ========================================================================= */
+        @supports (display: grid) {
+            .adaptive-showcase {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .adaptive-card {
+                flex: none;
+                min-width: 0;
+            }
+        }
+
+        /* =========================================================================
+           3. REFORMARE OPTICĂ (Detecție backdrop-filter pentru Glassmorphism)
+           ========================================================================= */
+        @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+            .adaptive-card {
+                background-color: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .adaptive-showcase {
+                background: radial-gradient(circle at top left, #1e1b4b, #090514);
+            }
+        }
+
+        /* =========================================================================
+           4. OPERATOR NOT – Fallback optic pentru browsere fără backdrop-filter
+           ========================================================================= */
+        @supports not (backdrop-filter: blur(10px)) {
+            .adaptive-card {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+            }
+        }
+
+        .adaptive-section {
+            position: relative;
+        }
+
+        .adaptive-section-head {
+            text-align: center;
+            padding: 60px 8% 0;
+            background-color: #0f172a;
+        }
+
+        @supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+            .adaptive-section-head {
+                background: radial-gradient(circle at top left, #1e1b4b, #090514);
+            }
+        }
+
+        .adaptive-section-head .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 10px;
+        }
+
+        .adaptive-section-head h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            color: #f8fafc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .adaptive-section-head .red-line-dark {
+            width: 45px; height: 3px;
+            background: var(--red);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ======= SERVICES ======= */
+        .services-section {
+            background: var(--light-bg);
+            padding: 90px 8%;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .card {
+            flex: 1 1 calc(33.333% - 24px);
+            min-width: 220px;
+            background: #fff;
+            padding: 40px 28px;
+            border-radius: 10px;
+            border-bottom: 4px solid transparent;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            cursor: default;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.10);
+            border-bottom-color: var(--red);
+        }
+        .card.selected { border: 2px solid var(--blue-accent); border-bottom: 4px solid var(--red); }
+
+        .card-icon {
+            width: 56px; height: 56px;
+            background: rgba(230,0,0,0.08);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            transition: background 0.25s;
+        }
+        .card:hover .card-icon { background: rgba(230,0,0,0.15); }
+        .card-icon i { font-size: 24px; color: var(--red); }
+
+        .card h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--dark);
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+        .card p { font-size: 14px; color: var(--gray-text); line-height: 1.6; }
+
+        /* ======= PREȚURI ======= */
+        .preturi-section { padding: 90px 8%; background: #fff; }
+
+        .preturi-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 35px;
+            align-items: start;
+        }
+
+        .preturi-wrap {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            overflow-x: auto;
+            border: 1px solid #eee;
+        }
+
+        .preturi-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 560px;
+        }
+
+        .preturi-wrap thead tr { background: var(--dark); color: #fff; }
+        .preturi-wrap thead th {
+            padding: 14px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            position: sticky; top: 0; z-index: 2;
+            background: var(--dark);
+        }
+
+        .preturi-wrap tr.cat-header td {
+            background: var(--red);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 7px 14px;
+        }
+
+        .preturi-wrap tbody tr:nth-child(even):not(.cat-header) { background: #fdf3f3; }
+        .preturi-wrap tbody tr:nth-child(odd):not(.cat-header) { background: #ffffff; }
+        .preturi-wrap tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.18s, color 0.18s;
+        }
+        .preturi-wrap tbody tr:hover:not(.cat-header) { background: var(--dark) !important; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) td { color: #fff !important; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) td.price { color: #ff6b6b !important; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) .badge-green { background: rgba(46,125,50,0.3); color: #a5d6a7; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) .badge-amber { background: rgba(245,127,23,0.3); color: #ffe082; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) .badge-red { background: rgba(198,40,40,0.3); color: #ef9a9a; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) td.rowspan-cat { background: rgba(255,255,255,0.07); color: #ccc; }
+        .preturi-wrap tbody tr:hover:not(.cat-header) td.dur { color: #bbb !important; }
+
+        .preturi-wrap tbody td { padding: 12px 14px; color: #333; vertical-align: middle; }
+
+        .preturi-wrap td.rowspan-cat {
+            background: #f8f9fa;
+            font-weight: 700; font-size: 11px; color: #888;
+            text-align: center; vertical-align: middle;
+            text-transform: uppercase; letter-spacing: 0.6px;
+            border-right: 3px solid var(--red);
+            writing-mode: vertical-rl; text-orientation: mixed;
+            transform: rotate(180deg);
+            width: 32px; padding: 10px 6px;
+        }
+
+        .preturi-wrap td.price { font-weight: 700; color: var(--red); white-space: nowrap; }
+        .preturi-wrap td.dur { color: #888; font-size: 13px; }
+
+        .badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+        .badge-green { background: #e8f5e9; color: #2e7d32; }
+        .badge-amber { background: #fff8e1; color: #f57f17; }
+        .badge-red   { background: #ffebee; color: #c62828; }
+
+        .note-pret { font-size: 12px; color: #999; padding: 12px 16px; border-top: 1px solid #f0f0f0; background: #fff; }
+
+        /* Orar sidebar */
+        .orar-sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+        .orar-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border: 1px solid #eee;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .orar-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.10); }
+
+        .orar-card .orar-header {
+            background: var(--dark);
+            color: #fff;
+            padding: 10px 16px;
+            font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.6px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .orar-card .orar-header i { color: var(--red); }
+        .orar-card .orar-body { padding: 14px 16px; }
+        .orar-card .orar-body .timp { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 4px; }
+        .orar-card .orar-body .zile { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+        .orar-card .orar-body .nota { font-size: 12px; color: #888; }
+
+        .orar-contact {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+        }
+        .orar-contact p { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--red); margin-bottom: 10px; }
+        .orar-contact .contact-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .orar-contact .contact-row:last-child { border-bottom: none; }
+        .orar-contact .contact-row i { color: var(--red); font-size: 15px; width: 18px; flex-shrink: 0; }
+        .orar-contact .contact-row span { font-size: 13px; color: #ccc; }
+
+        /* ======= CONTACT ======= */
+        .contact-section { padding: 90px 8%; background: var(--light-bg); }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .contact-form-wrap {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            border: 1px solid #eee;
+        }
+
+        fieldset {
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 1.4rem 1.4rem 0.6rem;
+            margin-bottom: 1.4rem;
+        }
+        legend {
+            padding: 0 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .field { position: relative; margin-bottom: 1.3rem; }
+
+        .field input, .field textarea, .field select {
+            width: 100%;
+            padding: 1rem 0.9rem 0.35rem;
+            border: 2px solid #d8d8d8;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Barlow', sans-serif;
+            color: #222;
+            background: #fafafa;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            appearance: none; -webkit-appearance: none;
+        }
+
+        .field select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%23999'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-color: #fafafa;
+            cursor: pointer;
+        }
+
+        .field textarea { resize: vertical; min-height: 115px; padding-top: 1.2rem; }
+
+        .field label {
+            position: absolute;
+            left: 0.9rem; top: 0.72rem;
+            font-size: 0.93rem; color: #999;
+            pointer-events: none;
+            transition: top 0.2s, font-size 0.2s, color 0.2s;
+        }
+
+        .field input:focus + label, .field input:not(:placeholder-shown) + label,
+        .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label,
+        .field select:focus + label, .field select.filled + label {
+            top: 0.15rem; font-size: 0.68rem; color: var(--red); font-weight: 700;
+        }
+
+        .field input:focus, .field textarea:focus, .field select:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(230,0,0,0.10);
+            background: #fff;
+        }
+
+        .field input:not(:placeholder-shown):valid, .field textarea:not(:placeholder-shown):valid { border-color: #2e7d32; }
+        .field input:not(:placeholder-shown):invalid, .field textarea:not(:placeholder-shown):invalid { border-color: var(--red); box-shadow: 0 0 0 3px rgba(230,0,0,0.08); }
+
+        .error-tip { display: none; font-size: 0.71rem; color: var(--red); margin-top: 0.25rem; padding-left: 0.1rem; }
+        .field input:not(:placeholder-shown):invalid ~ .error-tip,
+        .field textarea:not(:placeholder-shown):invalid ~ .error-tip { display: block; }
+
+        .char-counter { font-size: 0.7rem; color: #aaa; text-align: right; margin-top: 0.15rem; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.95rem;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Barlow', sans-serif;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+        }
+        .btn-submit:hover {
+            background: var(--red-dark);
+            box-shadow: 0 8px 24px rgba(230,0,0,0.35);
+            transform: translateY(-1px);
+        }
+        .btn-submit:active { transform: scale(0.98); box-shadow: none; }
+        .btn-submit::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+        }
+        .btn-submit:hover::before { animation: shimmer 0.85s ease-in-out infinite; }
+        @keyframes shimmer { 100% { left: 140%; } }
+
+        /* Sidebar contact */
+        .contact-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        .map-box {
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+        .map-box iframe { width: 100%; height: 220px; border: none; display: block; }
+
+        .info-box {
+            background: var(--dark);
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+        }
+        .info-box .info-header {
+            background: var(--red);
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem; font-weight: 700; color: #fff;
+            text-transform: uppercase; letter-spacing: 0.8px;
+        }
+        .info-box ul { list-style: none; padding: 0.8rem 1rem; }
+        .info-box ul li {
+            display: flex; align-items: flex-start; gap: 0.7rem;
+            padding: 0.55rem 0; font-size: 0.85rem; color: #ccc;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .info-box ul li:last-child { border-bottom: none; }
+        .info-box ul li i { color: var(--red); font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
+
+        /* ======= LOCAȚIE ======= */
+        .locatie-section { padding: 90px 8%; background: #fff; }
+
+        .locatie-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px; align-items: start;
+        }
+
+        .media-block { display: flex; flex-direction: column; gap: 14px; }
+        .media-label {
+            font-size: 12px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.8px; color: var(--dark);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .media-label i { color: var(--red); font-size: 16px; }
+
+        .iframe-wrap { width: 100%; border-radius: 10px; overflow: hidden; max-width: 100%; }
+        .iframe-video { border: 3px solid var(--red); box-shadow: 0 6px 25px rgba(230,0,0,0.18); }
+        .iframe-map { border: 3px solid var(--dark); box-shadow: 0 6px 25px rgba(4,12,28,0.18); }
+        .iframe-wrap iframe { width: 100%; height: 280px; border: none; display: block; }
+
+        .iframe-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--red); color: #fff; text-decoration: none;
+            padding: 10px 20px; border-radius: 6px;
+            font-size: 13px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            align-self: flex-start;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        .iframe-link:hover { background: var(--red-dark); box-shadow: 0 4px 14px rgba(230,0,0,0.35); transform: translateY(-1px); }
+        .iframe-link-map { background: var(--dark); }
+        .iframe-link-map:hover { background: var(--dark-mid); box-shadow: 0 4px 14px rgba(4,12,28,0.35); }
+
+        /* ======= FOOTER ======= */
+        footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 40px 8%;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand .logo-text { color: #fff; }
+
+        .footer-tagline {
+            font-size: 13px;
+            color: #778;
+            margin-top: 10px;
+            max-width: 220px;
+            line-height: 1.5;
+        }
+
+        .footer-contact { display: flex; flex-direction: column; gap: 12px; }
+        .contact-item { display: flex; align-items: center; gap: 12px; }
+        .contact-item i { color: var(--red); font-size: 18px; width: 20px; text-align: center; }
+        .contact-text h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; color: #ccc; }
+        .contact-text p { font-size: 13px; color: #888; }
+
+        .footer-hours h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #ccc; margin-bottom: 12px; }
+        .footer-hours .hour-row { display: flex; justify-content: space-between; gap: 20px; font-size: 13px; color: #888; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .footer-hours .hour-row:last-child { border-bottom: none; }
+        .footer-hours .hour-row span:first-child { color: #aaa; }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .footer-bottom p { font-size: 12px; color: #556; }
+
+        .footer-badges { display: flex; gap: 8px; }
+        .footer-social { display: flex; gap: 14px; margin-top: 8px; }
+        .footer-social__link {
+            color: #778;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+        .footer-social__link:hover { color: var(--red); }
+        .footer-badge {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #778;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ======= PERECHEA IV: WEB STORAGE TELEMETRY MONITOR ======= */
+        .telemetry-section {
+            background: var(--dark);
+            padding: 80px 8%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .telemetry-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 80% 50%, rgba(0, 242, 255, 0.04), transparent 60%),
+                        radial-gradient(ellipse at 20% 50%, rgba(230, 0, 0, 0.04), transparent 60%);
+            pointer-events: none;
+        }
+
+        .telemetry-section-head {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .telemetry-section-head .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #00f2ff;
+            margin-bottom: 10px;
+        }
+        .telemetry-section-head h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            color: #f8fafc;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .telemetry-section-head .cyan-line {
+            width: 45px; height: 3px;
+            background: #00f2ff;
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        .telemetry-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .telemetry-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .telemetry-panel__header {
+            background: rgba(0, 242, 255, 0.07);
+            border-bottom: 1px solid rgba(0, 242, 255, 0.15);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .telemetry-panel__header i {
+            color: #00f2ff;
+            font-size: 16px;
+        }
+
+        .telemetry-panel__header h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #e2e8f0;
+        }
+
+        .telemetry-panel__header .storage-badge {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: rgba(0, 242, 255, 0.15);
+            color: #00f2ff;
+            border: 1px solid rgba(0, 242, 255, 0.3);
+        }
+
+        .telemetry-panel__header .storage-badge.session {
+            background: rgba(255, 204, 0, 0.12);
+            color: #ffcc00;
+            border-color: rgba(255, 204, 0, 0.3);
+        }
+
+        .telemetry-panel__body {
+            padding: 24px 20px;
+        }
+
+        .telemetry-stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .telemetry-stat {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+
+        .telemetry-stat__label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .telemetry-stat__value {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #00f2ff;
+            line-height: 1;
+        }
+
+        .telemetry-stat__value.green { color: #00ff66; }
+        .telemetry-stat__value.amber { color: #ffcc00; }
+        .telemetry-stat__value.red   { color: var(--red); }
+
+        .telemetry-stat__sub {
+            font-size: 11px;
+            color: #475569;
+            margin-top: 3px;
+        }
+
+        .telemetry-log {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.7;
+            max-height: 130px;
+            overflow-y: auto;
+        }
+
+        .telemetry-log__line { color: #475569; }
+        .telemetry-log__line .log-time { color: #64748b; }
+        .telemetry-log__line .log-key { color: #00f2ff; }
+        .telemetry-log__line .log-val { color: #00ff66; font-weight: bold; }
+        .telemetry-log__line .log-session { color: #ffcc00; }
+
+        .telemetry-right { display: flex; flex-direction: column; gap: 20px; }
+
+        .telemetry-storage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .telemetry-storage-table thead tr {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .telemetry-storage-table thead th {
+            padding: 9px 12px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #64748b;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .telemetry-storage-table tbody td {
+            padding: 9px 12px;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: middle;
+        }
+        .telemetry-storage-table tbody tr:last-child td { border-bottom: none; }
+        .telemetry-storage-table tbody td:first-child { color: #00f2ff; font-family: monospace; }
+        .telemetry-storage-table tbody td:last-child { color: #00ff66; font-weight: 600; font-family: monospace; }
+        .telemetry-storage-table .row-session td:first-child { color: #ffcc00; }
+        .telemetry-storage-table .row-session td:last-child { color: #ffcc00; }
+
+        .gdpr-opt-out {
+            background: rgba(230, 0, 0, 0.05);
+            border: 1px solid rgba(230, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .gdpr-opt-out i {
+            color: var(--red);
+            font-size: 20px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .gdpr-opt-out__text h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 4px;
+        }
+
+        .gdpr-opt-out__text p {
+            font-size: 11px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .gdpr-opt-out__check {
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* custom checkbox */
+        .gdpr-opt-out__check input[type="checkbox"] {
+            width: 18px; height: 18px;
+            accent-color: var(--red);
+            cursor: pointer;
+        }
+
+        /* ======= PERECHEA IV: TELEMETRIE WEB STORAGE ======= */
+        .telemetry-section {
+            background: var(--dark);
+            padding: 80px 8%;
+            position: relative;
+            overflow: hidden;
+        }
+        .telemetry-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 80% 50%, rgba(0,242,255,0.04), transparent 60%),
+                radial-gradient(ellipse at 20% 50%, rgba(230,0,0,0.04), transparent 60%);
+            pointer-events: none;
+        }
+        .telemetry-section-head { text-align: center; margin-bottom: 50px; }
+        .telemetry-section-head .eyebrow {
+            font-size: 11px; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: #00f2ff; margin-bottom: 10px;
+        }
+        .telemetry-section-head h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 38px; font-weight: 800; color: #f8fafc;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .cyan-line {
+            width: 45px; height: 3px; background: #00f2ff;
+            margin: 12px auto 0; border-radius: 2px;
+        }
+
+        .telemetry-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        .telemetry-right { display: flex; flex-direction: column; gap: 20px; }
+
+        .telemetry-panel {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .telemetry-panel__header {
+            background: rgba(0,242,255,0.06);
+            border-bottom: 1px solid rgba(0,242,255,0.12);
+            padding: 14px 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .telemetry-panel__header i { color: #00f2ff; font-size: 15px; }
+        .telemetry-panel__header h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; color: #e2e8f0;
+        }
+        .storage-badge {
+            margin-left: auto; font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 3px 8px; border-radius: 10px;
+            background: rgba(0,242,255,0.12); color: #00f2ff;
+            border: 1px solid rgba(0,242,255,0.25);
+        }
+        .storage-badge.session {
+            background: rgba(255,204,0,0.10); color: #ffcc00;
+            border-color: rgba(255,204,0,0.25);
+        }
+
+        .telemetry-panel__body { padding: 22px 20px; }
+
+        .telemetry-stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .telemetry-stat {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px; padding: 14px 16px;
+        }
+        .telemetry-stat__label {
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.8px; color: #475569; margin-bottom: 6px;
+        }
+        .telemetry-stat__value {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 28px; font-weight: 900; color: #00f2ff; line-height: 1;
+        }
+        .telemetry-stat__value.green { color: #00ff66; }
+        .telemetry-stat__value.amber { color: #ffcc00; }
+        .telemetry-stat__sub { font-size: 11px; color: #475569; margin-top: 4px; }
+
+        .telemetry-log {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px; padding: 14px 16px;
+            font-family: 'Courier New', monospace; font-size: 11px;
+            line-height: 1.8; max-height: 120px; overflow-y: auto;
+        }
+        .telemetry-log__line { color: #475569; }
+        .log-time  { color: #64748b; }
+        .log-key   { color: #00f2ff; }
+        .log-val   { color: #00ff66; font-weight: bold; }
+        .log-session { color: #ffcc00; }
+
+        .telemetry-storage-table {
+            width: 100%; border-collapse: collapse; font-size: 12px;
+        }
+        .telemetry-storage-table thead tr { background: rgba(255,255,255,0.04); }
+        .telemetry-storage-table thead th {
+            padding: 10px 14px; text-align: left;
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.8px; color: #64748b;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .telemetry-storage-table tbody td {
+            padding: 10px 14px; color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: middle;
+        }
+        .telemetry-storage-table tbody tr:last-child td { border-bottom: none; }
+        .telemetry-storage-table tbody td:first-child { color: #00f2ff; font-family: monospace; font-size: 11px; }
+        .telemetry-storage-table tbody td:last-child  { color: #00ff66; font-weight: 600; font-family: monospace; }
+        .row-session td:first-child { color: #ffcc00 !important; }
+        .row-session td:last-child  { color: #ffcc00 !important; }
+
+        /* GDPR Opt-Out în footer */
+        .gdpr-opt-out {
+            background: rgba(230,0,0,0.05);
+            border: 1px solid rgba(230,0,0,0.15);
+            border-radius: 10px; padding: 12px 16px;
+            display: flex; align-items: center; gap: 12px;
+            margin-top: 4px;
+        }
+        .gdpr-opt-out > i { color: var(--red); font-size: 18px; flex-shrink: 0; }
+        .gdpr-opt-out__text h4 { font-size: 12px; font-weight: 700; color: #e2e8f0; margin-bottom: 3px; }
+        .gdpr-opt-out__text p  { font-size: 11px; color: #556; line-height: 1.4; }
+        .gdpr-opt-out__check { margin-left: auto; flex-shrink: 0; }
+        .gdpr-opt-out__check input[type="checkbox"] {
+            width: 18px; height: 18px; accent-color: var(--red); cursor: pointer;
+        }
+
+        /* ======= RESPONSIVE ======= */
+        @media (max-width: 900px) {
+            .cards-container { flex-direction: column; }
+            .card { flex: 1 1 100%; min-width: unset; }
+            .contact-grid, .preturi-grid, .locatie-grid { grid-template-columns: 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .hero-stats { position: static; margin-top: 40px; }
+            .hero { flex-direction: column; padding-top: 100px; }
+            .iframe-wrap iframe { height: 220px; }
+            nav ul { gap: 20px; }
+            .footer-top { flex-direction: column; gap: 30px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .telemetry-dashboard { grid-template-columns: 1fr; }
+            .telemetry-stat-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            nav ul { display: none; }
+            .hero-content h1 { font-size: 44px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <header id="navbar">
+        <div class="logo-container">
+            <div class="logo-icon"><i class="fas fa-car-side"></i></div>
+            <div class="logo-text">SERVICE AUTO<br><span>RAPID</span></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Acasă</a></li>
+                <li><a href="#preturi">Servicii</a></li>
+                <li><a href="#despre">Despre</a></li>
+                <li><a href="#contact" class="nav-cta">Programează-te</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-accent"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-shield-alt"></i> Certificat &amp; Garantat</div>
+            <h1>Reparații Auto<br><span>Rapide</span> și<br>de Încredere</h1>
+            <p>Calitate, seriozitate și servicii profesionale pentru mașina ta. Echipamente moderne, tehnicieni certificați.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary"><i class="fas fa-calendar-check"></i> Programează-te acum</a>
+                <a href="#preturi" class="btn-outline"><i class="fas fa-list"></i> Vezi Prețuri</a>
+            </div>
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="num">500+</div>
+                <div class="label">Clienți</div>
+            </div>
+            <div class="hero-stat">
+                <div class="num">10+</div>
+                <div class="label">Ani Exp.</div>
+            </div>
+            <div class="hero-stat">
+                <div class="num">100%</div>
+                <div class="label">Garanție</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PERECHEA I: CROSS-BROWSER AUDIT & FEATURE QUERIES ===== -->
+    <!-- Realizat de: Bajureanu Nichita | Ziua 11 - Perechea 1 -->
+    <!-- Cross-Browser Audit & Feature Queries Designed by: Bajureanu Nichita | Data: 19.05.2026 -->
+    <section class="adaptive-section reveal">
+        <div class="adaptive-section-head">
+            <div class="eyebrow">Ziua 11 · Perechea I</div>
+            <h2>Interfață Rezilientă Cross-Browser</h2>
+            <div class="red-line-dark"></div>
+        </div>
+
+        <section class="adaptive-showcase">
+            <div class="adaptive-card reveal reveal-delay-1">
+                <div class="adaptive-card__header">Modulul 01</div>
+                <p class="adaptive-card__body">Sistem de interfață rezistent la erori și compatibil retroactiv. Progressive Enhancement cu fallback structural de la Grid la Flexbox.</p>
+            </div>
+
+            <div class="adaptive-card reveal reveal-delay-2">
+                <div class="adaptive-card__header">Modulul 02</div>
+                <p class="adaptive-card__body">Fallback automat la nivel de layout engine prin Feature Queries (@supports). Detecția nativă a capabilităților browserului vizitatorului.</p>
+            </div>
+
+            <div class="adaptive-card reveal reveal-delay-3">
+                <div class="adaptive-card__header">Modulul 03</div>
+                <p class="adaptive-card__body">Suport complet pentru randare pe GPU sau CPU legacy. Glassmorphism cu backdrop-filter și degradare grațioasă vizuală.</p>
+            </div>
+        </section>
+    </section>
+
+    <!-- ===== SERVICII ===== -->
+    <section class="services-section">
+        <div class="section-head reveal">
+            <div class="eyebrow">Ce oferim</div>
+            <h2>Serviciile Noastre</h2>
+            <div class="red-line"></div>
+        </div>
+        <div class="cards-container">
+            <div class="card reveal reveal-delay-1">
+                <div class="card-icon"><i class="fas fa-file-medical-alt"></i></div>
+                <h3>Diagnoză Auto</h3>
+                <p>Identificăm rapid problemele mașinii tale cu echipamente moderne de ultimă generație.</p>
+            </div>
+            <div class="card reveal reveal-delay-2">
+                <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                <h3>Reparații Motor</h3>
+                <p>Reparații eficiente și durabile pentru orice tip de motor, cu piese de calitate.</p>
+            </div>
+            <div class="card selected reveal reveal-delay-3">
+                <div class="card-icon"><i class="fas fa-oil-can"></i></div>
+                <h3>Schimb Ulei &amp; Filtre</h3>
+                <p>Întreținere rapidă și profesională pentru performanță maximă a motorului tău.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PREȚURI ===== -->
+    <section class="preturi-section" id="preturi">
+        <div class="section-head reveal">
+            <div class="eyebrow">Transparență totală</div>
+            <h2>Listă de Prețuri &amp; Orar</h2>
+            <div class="red-line"></div>
+        </div>
+
+        <div class="preturi-grid">
+            <div class="preturi-wrap reveal">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:30px"></th>
+                            <th>Serviciu</th>
+                            <th>Durată</th>
+                            <th>Preț (MDL)</th>
+                            <th>Status</th>
+                            <th>Programare</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="cat-header">
+                            <td colspan="6"><i class="fas fa-search" style="margin-right:7px"></i>Diagnoză &amp; Inspecție</td>
+                        </tr>
+                        <tr>
+                            <td class="rowspan-cat" rowspan="2">Diagnoză</td>
+                            <td>Diagnoză electronică completă</td>
+                            <td class="dur">30–45 min</td>
+                            <td class="price">350 MDL</td>
+                            <td><span class="badge badge-green">Disponibil</span></td>
+                            <td>Necesară</td>
+                        </tr>
+                        <tr>
+                            <td>Inspecție vizuală pre-ITP</td>
+                            <td class="dur">20–30 min</td>
+                            <td class="price">200 MDL</td>
+                            <td><span class="badge badge-green">Disponibil</span></td>
+                            <td>Opțional</td>
+                        </tr>
+                        <tr class="cat-header">
+                            <td colspan="6"><i class="fas fa-cogs" style="margin-right:7px"></i>Reparații Motor</td>
+                        </tr>
+                        <tr>
+                            <td class="rowspan-cat" rowspan="3">Motor</td>
+                            <td>Schimb ulei motor + filtru</td>
+                            <td class="dur">20–30 min</td>
+                            <td class="price">250 MDL*</td>
+                            <td><span class="badge badge-green">Disponibil</span></td>
+                            <td>Opțional</td>
+                        </tr>
+                        <tr>
+                            <td>Curățare injectoare</td>
+                            <td class="dur">1–2 ore</td>
+                            <td class="price">800 MDL</td>
+                            <td><span class="badge badge-amber">La cerere</span></td>
+                            <td>Necesară</td>
+                        </tr>
+                        <tr>
+                            <td>Înlocuire curea distribuție</td>
+                            <td class="dur">3–5 ore</td>
+                            <td class="price">1.800 MDL*</td>
+                            <td><span class="badge badge-amber">La cerere</span></td>
+                            <td>Necesară</td>
+                        </tr>
+                        <tr class="cat-header">
+                            <td colspan="6"><i class="fas fa-circle-notch" style="margin-right:7px"></i>Frâne &amp; Suspensie</td>
+                        </tr>
+                        <tr>
+                            <td class="rowspan-cat" rowspan="2">Frâne</td>
+                            <td>Înlocuire plăcuțe față / spate</td>
+                            <td class="dur">45–60 min</td>
+                            <td class="price">600 MDL*</td>
+                            <td><span class="badge badge-green">Disponibil</span></td>
+                            <td>Necesară</td>
+                        </tr>
+                        <tr>
+                            <td>Reglaj geometrie roți</td>
+                            <td class="dur">1 oră</td>
+                            <td class="price">500 MDL</td>
+                            <td><span class="badge badge-green">Disponibil</span></td>
+                            <td>Necesară</td>
+                        </tr>
+                        <tr class="cat-header">
+                            <td colspan="6"><i class="fas fa-wind" style="margin-right:7px"></i>Climatizare &amp; Electrice</td>
+                        </tr>
+                        <tr>
+                            <td class="rowspan-cat" rowspan="2">AC</td>
+                            <td>Reîncărcare agent frigorific AC</td>
+                            <td class="dur">30–45 min</td>
+                            <td class="price">700 MDL</td>
+                            <td><span class="badge badge-amber">Sezonier</span></td>
+                            <td>Necesară</td>
+                        </tr>
+                        <tr>
+                            <td>Diagnosticare &amp; reparație electrică</td>
+                            <td class="dur">1–3 ore</td>
+                            <td class="price">de la 400 MDL</td>
+                            <td><span class="badge badge-red">Limitat</span></td>
+                            <td>Obligatorie</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="note-pret">* Prețul include manopera. Piesele de schimb se calculează separat, în funcție de marcă și model.</p>
+            </div>
+
+            <div class="orar-sidebar">
+                <div class="orar-card reveal reveal-delay-1">
+                    <div class="orar-header"><i class="fas fa-calendar-week"></i> Luni – Vineri</div>
+                    <div class="orar-body">
+                        <div class="timp">08:00 – 18:00</div>
+                        <div class="zile">Program complet</div>
+                        <div class="nota">Consultații fără programare: 08:00–10:00</div>
+                    </div>
+                </div>
+                <div class="orar-card reveal reveal-delay-2">
+                    <div class="orar-header"><i class="fas fa-calendar-day"></i> Sâmbătă</div>
+                    <div class="orar-body">
+                        <div class="timp">09:00 – 14:00</div>
+                        <div class="zile">Program redus</div>
+                        <div class="nota">Numai cu programare în avans</div>
+                    </div>
+                </div>
+                <div class="orar-card reveal reveal-delay-3">
+                    <div class="orar-header"><i class="fas fa-calendar-times"></i> Duminică</div>
+                    <div class="orar-body">
+                        <div class="timp" style="font-size:20px; color:#888">Închis</div>
+                        <div class="nota" style="margin-top:4px">Urgențe — contactați-ne telefonic</div>
+                    </div>
+                </div>
+                <div class="orar-contact reveal">
+                    <p><i class="fas fa-phone-alt" style="margin-right:6px"></i>Programează-te</p>
+                    <div class="contact-row"><i class="fas fa-phone-alt"></i><span>061 111 382</span></div>
+                    <div class="contact-row"><i class="fas fa-envelope"></i><span>bajureanun10@gmail.com</span></div>
+                    <div class="contact-row"><i class="fas fa-clock"></i><span>Lun–Vin: 08:00–17:30 · Sâm: 09:00–13:00</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact-section" id="contact">
+        <div class="section-head reveal">
+            <div class="eyebrow">Suntem aici pentru tine</div>
+            <h2>Contactează-ne</h2>
+            <div class="red-line"></div>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-form-wrap reveal">
+                <form id="contactForm" novalidate>
+                    <fieldset>
+                        <legend>Date Personale</legend>
+                        <div class="two-col">
+                            <div class="field">
+                                <input type="text" id="nume" name="nume" placeholder=" " minlength="2" autocomplete="family-name" required />
+                                <label for="nume">Nume *</label>
+                                <span class="error-tip">Introduceți numele (min. 2 litere).</span>
+                            </div>
+                            <div class="field">
+                                <input type="text" id="prenume" name="prenume" placeholder=" " minlength="2" autocomplete="given-name" required />
+                                <label for="prenume">Prenume *</label>
+                                <span class="error-tip">Introduceți prenumele (min. 2 litere).</span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <input type="email" id="email" name="email" placeholder=" " autocomplete="email" required />
+                            <label for="email">Email *</label>
+                            <span class="error-tip">Introduceți o adresă de email validă.</span>
+                        </div>
+                        <div class="field">
+                            <input type="tel" id="telefon" name="telefon" placeholder=" " pattern="[0-9]{9,10}" autocomplete="tel" />
+                            <label for="telefon">Telefon</label>
+                            <span class="error-tip">Introduceți 9–10 cifre (ex: 061111382).</span>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Detalii Mesaj</legend>
+                        <div class="field">
+                            <select id="subiect" name="subiect" autocomplete="off">
+                                <option value="" disabled selected></option>
+                                <option value="programare">Programare Service</option>
+                                <option value="oferta">Cerere Ofertă</option>
+                                <option value="reclamatie">Reclamație</option>
+                                <option value="altele">Altele</option>
+                            </select>
+                            <label for="subiect">Subiect</label>
+                        </div>
+                        <div class="field">
+                            <textarea id="mesaj" name="mesaj" placeholder=" " maxlength="500" autocomplete="off" required></textarea>
+                            <label for="mesaj">Mesajul tău *</label>
+                            <span class="error-tip">Scrieți un mesaj (obligatoriu).</span>
+                            <div class="char-counter"><span id="charCount">0</span> / 500 caractere</div>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i>&nbsp; Trimite Mesajul
+                    </button>
+                </form>
+            </div>
+
+            <div class="contact-sidebar">
+                <div class="map-box reveal reveal-delay-1">
+                    <!-- Interface Hardening: Sandboxed Iframes & Outbound Isolation by: Bajureanu Nichita | Data: 19.05.2026 -->
+                    <iframe
+                        title="Locație Service Auto Rapid Chișinău"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2720.5!2d28.8275!3d47.0245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDAxJzI4LjIiTiAyOMKwNDknMzkuMCJF!5e0!3m2!1sro!2smd!4v1"
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="info-box reveal reveal-delay-2">
+                    <div class="info-header"><i class="fas fa-info-circle"></i> &nbsp;Informații de Contact</div>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Chișinău, Moldova</li>
+                        <li><i class="fas fa-phone-alt"></i> 061 111 382</li>
+                        <li><i class="fas fa-envelope"></i> bajureanun10@gmail.com</li>
+                        <li><i class="fas fa-clock"></i> Lun–Vin: 08:00 – 18:00</li>
+                        <li><i class="fas fa-clock"></i> Sâmbătă: 09:00 – 14:00</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LOCAȚIE ===== -->
+    <section class="locatie-section" id="despre">
+        <div class="section-head reveal">
+            <div class="eyebrow">Găsește-ne</div>
+            <h2>Locație și Prezentare</h2>
+            <div class="red-line"></div>
+        </div>
+
+        <div class="locatie-grid">
+            <div class="media-block reveal reveal-delay-1">
+                <div class="media-label"><i class="fas fa-play-circle"></i> Video de Prezentare</div>
+                <div class="iframe-wrap iframe-video">
+                    <!-- Interface Hardening: Sandboxed Iframes & Outbound Isolation by: Bajureanu Nichita | Data: 19.05.2026 -->
+                    <!-- CSP Interaction: atributul sandbox restricționează contextul iframe-ului la nivel de browser,
+                         iar directiva frame-src din CSP header controlează ce origini pot fi încărcate.
+                         Cele două lucrează în tandem: CSP blochează surse neautorizate înainte de încărcare,
+                         sandbox limitează ce poate face iframe-ul după ce a fost încărcat. -->
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/pC4P0c7o80s?rel=0&modestbranding=1"
+                        title="Service Auto Rapid – Prezentare"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        sandbox="allow-scripts allow-same-origin allow-presentation"
+                        allowfullscreen loading="lazy">
+                    </iframe>
+                </div>
+                <a href="https://youtu.be/pC4P0c7o80s?si=9iyDiHxYIbkxurNt" target="_blank" rel="noopener noreferrer" class="iframe-link">
+                    <i class="fas fa-external-link-alt"></i> Vizionează pe YouTube
+                </a>
+            </div>
+
+            <div class="media-block reveal reveal-delay-2">
+                <div class="media-label"><i class="fas fa-map-marked-alt"></i> Harta Locației</div>
+                <div class="iframe-wrap iframe-map">
+                    <!-- Interface Hardening: Sandboxed Iframes & Outbound Isolation by: Bajureanu Nichita | Data: 19.05.2026 -->
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2720.5!2d28.8275!3d47.0245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDAxJzI4LjIiTiAyOMKwNDknMzkuMCJF!5e0!3m2!1sro!2smd!4v1"
+                        title="Locație Service Auto Rapid Chișinău"
+                        sandbox="allow-scripts allow-same-origin"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen loading="lazy">
+                    </iframe>
+                </div>
+                <a href="https://maps.google.com/?q=Chisinau,Moldova" target="_blank" rel="noopener noreferrer" class="iframe-link iframe-link-map">
+                    <i class="fas fa-directions"></i> Deschide în Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PERECHEA IV: TELEMETRIE PERSISTENTĂ & WEB STORAGE ===== -->
+    <!-- State Preservation Engineering: Web Storage Persistence validated by: Bajureanu Nichita | 19.05.2026 -->
+    <section class="telemetry-section reveal">
+        <div class="telemetry-section-head">
+            <div class="eyebrow">Ziua 11 · Perechea IV</div>
+            <h2>Monitor Telemetrie Persistentă</h2>
+            <div class="cyan-line"></div>
+        </div>
+
+        <div class="telemetry-dashboard">
+
+            <!-- PANEL STÂNGA: localStorage – Vizite persistente -->
+            <div class="telemetry-panel reveal reveal-delay-1">
+                <div class="telemetry-panel__header">
+                    <i class="fas fa-database"></i>
+                    <h3>localStorage — Persistent</h3>
+                    <span class="storage-badge">Non-Volatil</span>
+                </div>
+                <div class="telemetry-panel__body">
+                    <div class="telemetry-stat-grid">
+                        <div class="telemetry-stat">
+                            <div class="telemetry-stat__label">Vizite Totale</div>
+                            <div class="telemetry-stat__value green" id="stat-visits">—</div>
+                            <div class="telemetry-stat__sub">Actualizat la fiecare reload</div>
+                        </div>
+                        <div class="telemetry-stat">
+                            <div class="telemetry-stat__label">Tip Utilizator</div>
+                            <div class="telemetry-stat__value amber" id="stat-user-type">—</div>
+                            <div class="telemetry-stat__sub">Prima vizită = Nou</div>
+                        </div>
+                        <div class="telemetry-stat">
+                            <div class="telemetry-stat__label">Media Sesiunilor</div>
+                            <div class="telemetry-stat__value" id="stat-avg-duration">—</div>
+                            <div class="telemetry-stat__sub">Calculată la ieșire</div>
+                        </div>
+                        <div class="telemetry-stat">
+                            <div class="telemetry-stat__label">Sesiuni Înregistrate</div>
+                            <div class="telemetry-stat__value" id="stat-session-count">—</div>
+                            <div class="telemetry-stat__sub">Max 20 istorice</div>
+                        </div>
+                    </div>
+                    <div class="telemetry-log" id="ls-log">
+                        <div class="telemetry-log__line">Se citesc datele din localStorage…</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL DREAPTA: sessionStorage + tabel de chei -->
+            <div class="telemetry-right">
+
+                <div class="telemetry-panel reveal reveal-delay-2">
+                    <div class="telemetry-panel__header">
+                        <i class="fas fa-hourglass-half"></i>
+                        <h3>sessionStorage — Volatil</h3>
+                        <span class="storage-badge session">Per Tab</span>
+                    </div>
+                    <div class="telemetry-panel__body">
+                        <div class="telemetry-stat-grid">
+                            <div class="telemetry-stat">
+                                <div class="telemetry-stat__label">Start Sesiune</div>
+                                <div class="telemetry-stat__value amber" id="stat-session-start" style="font-size:20px;">—</div>
+                                <div class="telemetry-stat__sub">Resetat la închidere tab</div>
+                            </div>
+                            <div class="telemetry-stat">
+                                <div class="telemetry-stat__label">Timp Activ</div>
+                                <div class="telemetry-stat__value" id="stat-time-on-page">0s</div>
+                                <div class="telemetry-stat__sub">Cronometru live</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabel Storage Inspector -->
+                <div class="telemetry-panel reveal reveal-delay-3">
+                    <div class="telemetry-panel__header">
+                        <i class="fas fa-table"></i>
+                        <h3>Storage Inspector</h3>
+                    </div>
+                    <div class="telemetry-panel__body" style="padding: 0;">
+                        <table class="telemetry-storage-table">
+                            <thead>
+                                <tr>
+                                    <th>Cheie</th>
+                                    <th>Motor</th>
+                                    <th>Valoare Curentă</th>
+                                </tr>
+                            </thead>
+                            <tbody id="storage-inspector-body">
+                                <tr><td colspan="3" style="color:#475569; padding:12px; text-align:center;">Se încarcă…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo-container">
+                    <div class="logo-icon"><i class="fas fa-car-side"></i></div>
+                    <div class="logo-text">SERVICE AUTO<br><span>RAPID</span></div>
+                </div>
+                <p class="footer-tagline">Servicii auto profesionale în inima Chișinăului.</p>
+            </div>
+
+            <div class="footer-contact">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="contact-text"><h4>Adresă</h4><p>Chișinău, Moldova</p></div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div class="contact-text"><h4>Telefon</h4><p>061 111 382</p></div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="contact-text"><h4>Email</h4><p>bajureanun10@gmail.com</p></div>
+                </div>
+            </div>
+
+            <div class="footer-hours">
+                <h4><i class="fas fa-clock" style="margin-right:6px;color:var(--red)"></i>Program</h4>
+                <div class="hour-row"><span>Luni – Vineri</span><span>08:00 – 18:00</span></div>
+                <div class="hour-row"><span>Sâmbătă</span><span>09:00 – 14:00</span></div>
+                <div class="hour-row"><span>Duminică</span><span>Închis</span></div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Service Auto Rapid · Chișinău, Moldova</p>
+            <!-- SECURED OUTBOUND LINKS - Reverse Tabnabbing Prevention by: Bajureanu Nichita | Data: 19.05.2026 -->
+            <div class="footer-badges">
+                <span class="footer-badge"><i class="fas fa-shield-alt"></i> Certificat</span>
+                <span class="footer-badge"><i class="fas fa-lock"></i> HTTPS</span>
+                <span class="footer-badge">TLS 1.3</span>
+            </div>
+            <!-- GDPR OPT-OUT — Perechea IV: bifă care șterge storage-ul și blochează beacon-ul -->
+            <div class="gdpr-opt-out">
+                <i class="fas fa-user-shield"></i>
+                <div class="gdpr-opt-out__text">
+                    <h4>Confidențialitate &amp; Telemetrie</h4>
+                    <p>Bifați pentru a refuza colectarea datelor de sesiune (GDPR). Toate datele stocate local vor fi șterse.</p>
+                </div>
+                <div class="gdpr-opt-out__check">
+                    <input type="checkbox" id="telemetry-opt-out" title="Refuză cookies/telemetrie">
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-social__link">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://utm.md" target="_blank" rel="noopener noreferrer" class="footer-social__link">
+                    <i class="fas fa-university"></i> Portal UTM
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => observer.observe(el));
+
+        // Char counter
+        const mesaj = document.getElementById('mesaj');
+        const charCount = document.getElementById('charCount');
+        mesaj.addEventListener('input', () => { charCount.textContent = mesaj.value.length; });
+
+        // Select filled state
+        const subiect = document.getElementById('subiect');
+        subiect.addEventListener('change', () => {
+            subiect.classList.toggle('filled', subiect.value !== '');
+        });
+
+        // Form submit
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const required = this.querySelectorAll('[required]');
+            let ok = true;
+            required.forEach(el => { if (!el.validity.valid) ok = false; });
+            if (ok) {
+                alert('✅ Mesajul a fost trimis! Vă mulțumim că ați contactat Service Auto Rapid!');
+                this.reset();
+                charCount.textContent = '0';
+                subiect.classList.remove('filled');
+            } else {
+                alert('⚠️ Verificați câmpurile marcate cu roșu.');
+            }
+        });
+    </script>
+    <script src="/ziua 11/assets/js/telemetry.js"></script>
+    <script>
+        // =====================================================================
+        // Dashboard UI Updater — citește din Web Storage și populează panoul
+        // =====================================================================
+        (function () {
+            function safeGet(storage, key) {
+                try { return storage.getItem(key); } catch (e) { return null; }
+            }
+
+            function updateDashboard() {
+                // localStorage
+                const visits       = safeGet(localStorage, 'utm_telemetry_visits');
+                const durationsRaw = safeGet(localStorage, 'utm_session_durations');
+
+                const visitEl   = document.getElementById('stat-visits');
+                const typeEl    = document.getElementById('stat-user-type');
+                const avgEl     = document.getElementById('stat-avg-duration');
+                const countEl   = document.getElementById('stat-session-count');
+                const lsLog     = document.getElementById('ls-log');
+                const inspector = document.getElementById('storage-inspector-body');
+
+                if (visitEl)  visitEl.textContent  = visits || '—';
+                if (typeEl)   typeEl.textContent    = (visits === '1' || !visits) ? 'Nou' : 'Recurent';
+
+                let durations = [], avgDur = '—', sessionCount = '—';
+                if (durationsRaw) {
+                    try {
+                        durations = JSON.parse(durationsRaw);
+                        if (Array.isArray(durations) && durations.length) {
+                            avgDur       = (durations.reduce((a, b) => a + b, 0) / durations.length).toFixed(1) + 's';
+                            sessionCount = durations.length;
+                        }
+                    } catch (e) { /* ignorăm */ }
+                }
+                if (avgEl)   avgEl.textContent   = avgDur;
+                if (countEl) countEl.textContent  = sessionCount;
+
+                // Log box
+                if (lsLog) {
+                    lsLog.innerHTML = `
+                        <div class="telemetry-log__line"><span class="log-time">[localStorage]</span> <span class="log-key">utm_telemetry_visits</span> = <span class="log-val">${visits || 'null'}</span></div>
+                        <div class="telemetry-log__line"><span class="log-time">[localStorage]</span> <span class="log-key">utm_session_durations</span> = <span class="log-val">${durationsRaw ? durationsRaw.substring(0, 60) + (durationsRaw.length > 60 ? '…' : '') : 'null'}</span></div>
+                        <div class="telemetry-log__line"><span class="log-time">[sessionStorage]</span> <span class="log-key">utm_session_start_time</span> = <span class="log-session">${safeGet(sessionStorage, 'utm_session_start_time') || 'null'}</span></div>
+                    `;
+                }
+
+                // sessionStorage
+                const sessionStart = safeGet(sessionStorage, 'utm_session_start_time');
+                const startEl = document.getElementById('stat-session-start');
+                if (startEl) startEl.textContent = sessionStart || '—';
+
+                // Storage Inspector table
+                if (inspector) {
+                    const rows = [
+                        { key: 'utm_telemetry_visits',   engine: 'localStorage',   val: visits },
+                        { key: 'utm_session_durations',  engine: 'localStorage',   val: sessionCount !== '—' ? `[${sessionCount} intrări]` : null },
+                        { key: 'utm_opt_out',            engine: 'localStorage',   val: safeGet(localStorage, 'utm_opt_out') },
+                        { key: 'utm_session_start_time', engine: 'sessionStorage', val: sessionStart, isSession: true },
+                    ].filter(r => r.val !== null && r.val !== undefined);
+
+                    if (rows.length) {
+                        inspector.innerHTML = rows.map(r => `
+                            <tr class="${r.isSession ? 'row-session' : ''}">
+                                <td>${r.key}</td>
+                                <td style="color:#64748b; font-size:11px;">${r.engine}</td>
+                                <td>${r.val || '—'}</td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        inspector.innerHTML = '<tr><td colspan="3" style="color:#475569; padding:12px; text-align:center;">Storage gol — reîncarcă pagina.</td></tr>';
+                    }
+                }
+            }
+
+            // Cronometru live Time on Page
+            (function () {
+                const startStr = sessionStorage.getItem('utm_session_start_time');
+                const el = document.getElementById('stat-time-on-page');
+                if (!el || !startStr) return;
+
+                setInterval(function () {
+                    const now     = new Date();
+                    const start   = new Date(now.toDateString() + ' ' + startStr);
+                    const elapsed = Math.round((now - start) / 1000);
+                    el.textContent = elapsed > 0 ? elapsed + 's' : '0s';
+                }, 1000);
+            })();
+
+            // Actualizăm panoul după ce telemetry.js a rulat
+            window.addEventListener('load', function () {
+                setTimeout(updateDashboard, 600);
+            });
+
+        })();
+    </script>
+</html>
